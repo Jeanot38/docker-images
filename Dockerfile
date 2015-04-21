@@ -6,10 +6,11 @@ RUN \
 RUN apt-get update && apt-get install -y git
 # Change this if you want to install another version of cloudify
 ENV CFY_BRANCH master
+ENV CFY_SCRIPT_BRANCH master
 RUN pip install https://github.com/cloudify-cosmo/cloudify-dsl-parser/archive/$CFY_BRANCH.zip
 RUN pip install https://github.com/cloudify-cosmo/cloudify-rest-client/archive/$CFY_BRANCH.zip
 RUN pip install https://github.com/cloudify-cosmo/cloudify-plugins-common/archive/$CFY_BRANCH.zip
-RUN pip install https://github.com/cloudify-cosmo/cloudify-script-plugin/archive/$CFY_BRANCH.zip
+RUN pip install https://github.com/cloudify-cosmo/cloudify-script-plugin/archive/$CFY_SCRIPT_BRANCH.zip
 RUN pip install https://github.com/cloudify-cosmo/cloudify-cli/archive/$CFY_BRANCH.zip
 RUN mkdir /cfybootstrap
 WORKDIR /cfybootstrap
