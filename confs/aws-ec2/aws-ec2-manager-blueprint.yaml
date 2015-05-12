@@ -1,9 +1,9 @@
 tosca_definitions_version: cloudify_dsl_1_1
 
 imports:
-  - http://www.getcloudify.org/spec/cloudify/3.2rc1/types.yaml
-  - http://www.getcloudify.org/spec/aws-plugin/1.2rc1/plugin.yaml
-  - http://www.getcloudify.org/spec/fabric-plugin/1.2rc1/plugin.yaml
+  - http://www.getcloudify.org/spec/cloudify/3.2/types.yaml
+  - http://www.getcloudify.org/spec/aws-plugin/1.2/plugin.yaml
+  - http://www.getcloudify.org/spec/fabric-plugin/1.2/plugin.yaml
 
 inputs:
 
@@ -12,6 +12,10 @@ inputs:
     default: ''
 
   aws_secret_access_key:
+    type: string
+    default: ''
+
+  ec2_region_name:
     type: string
     default: ''
 
@@ -105,10 +109,6 @@ node_templates:
           to_port: 443
           cidr_ip: 0.0.0.0/0          
         - ip_protocol: tcp
-          from_port: 5555
-          to_port: 5555
-          src_group_id: { get_property: [agents_security_group, resource_id] }
-        - ip_protocol: tcp
           from_port: 8101
           to_port: 8101
           src_group_id: { get_property: [agents_security_group, resource_id] }
@@ -133,12 +133,8 @@ node_templates:
       description: Security group for Cloudify agent VMs
       rules:
         - ip_protocol: tcp
-          from_port: 22
-          to_port: 22
-          cidr_ip: 0.0.0.0/0
-        - ip_protocol: tcp
-          from_port: 5985
-          to_port: 5985
+          from_port: 0
+          to_port: 65535
           cidr_ip: 0.0.0.0/0
       aws_config: { get_property: [ aws_configuration, aws_config ] }
 
@@ -168,11 +164,11 @@ node_templates:
     properties:
       cloudify_packages:
         agents:
-          ubuntu_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/rc1-RELEASE/cloudify-ubuntu-agent_3.2.0-rc1-b179_amd64.deb
-          centos_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/rc1-RELEASE/cloudify-centos-final-agent_3.2.0-rc1-b179_amd64.deb
-          windows_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/rc1-RELEASE/cloudify-windows-agent_3.2.0-rc1-b179_amd64.deb
+          ubuntu_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-ubuntu-agent_3.2.0-ga-b200_amd64.deb
+          centos_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-centos-final-agent_3.2.0-ga-b200_amd64.deb
+          windows_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-windows-agent_3.2.0-ga-b200_amd64.deb
         docker:
-           docker_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/rc1-RELEASE/cloudify-docker_3.2.0-rc1-b179.tar
+           docker_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-docker_3.2.0-ga-b200.tar
 
       cloudify:
 
@@ -247,6 +243,7 @@ node_templates:
       aws_config:
         aws_access_key_id: { get_input: aws_access_key_id }
         aws_secret_access_key: { get_input: aws_secret_access_key }
+        ec2_region_name: { get_input: ec2_region_name }
 
 node_types:
   aws_configuration:
@@ -262,4 +259,5 @@ plugins:
 outputs:
   manager_ip:
     value: { get_attribute: [ manager_server_ip, aws_resource_id ] }
+
 
