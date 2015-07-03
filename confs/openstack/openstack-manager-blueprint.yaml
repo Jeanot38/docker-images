@@ -141,7 +141,7 @@ node_templates:
       subnet:
         ip_version: 4
         cidr: 10.67.79.0/24
-        dns_nameservers: [8.8.8.8]
+        dns_nameservers: [8.8.8.8, 129.185.67.10]
       openstack_config: { get_property: [openstack_configuration, openstack_config] }
     relationships:
       - target: management_network
@@ -323,7 +323,7 @@ node_templates:
           centos_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-centos-final-agent_3.2.0-ga-b200_amd64.deb
           windows_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-windows-agent_3.2.0-ga-b200_amd64.deb
         docker:
-           docker_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-docker_3.2.0-ga-b200.tar
+           docker_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-docker-commercial_3.2.0-ga-b200.tar
 
       cloudify:
         resources_prefix: { get_input: resources_prefix }
