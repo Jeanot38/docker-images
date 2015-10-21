@@ -1,9 +1,9 @@
 tosca_definitions_version: cloudify_dsl_1_0
 
 imports:
-  - http://www.getcloudify.org/spec/cloudify/3.2/types.yaml
-  - http://www.getcloudify.org/spec/openstack-plugin/1.2/plugin.yaml
-  - http://www.getcloudify.org/spec/fabric-plugin/1.2/plugin.yaml
+  - http://www.getcloudify.org/spec/cloudify/3.2.1/types.yaml
+  - http://www.getcloudify.org/spec/openstack-plugin/1.2.1/plugin.yaml
+  - http://www.getcloudify.org/spec/fabric-plugin/1.2.1/plugin.yaml
 
 
 inputs:
@@ -141,7 +141,6 @@ node_templates:
       subnet:
         ip_version: 4
         cidr: 10.67.79.0/24
-        dns_nameservers: [8.8.8.8, 129.185.67.10]
       openstack_config: { get_property: [openstack_configuration, openstack_config] }
     relationships:
       - target: management_network
@@ -299,7 +298,7 @@ node_templates:
             establish:
               implementation: fabric.fabric_plugin.tasks.run_script
               inputs:
-                script_path: https://raw.githubusercontent.com/cloudify-cosmo/cloudify-manager/master/resources/rest-service/cloudify/fs/mount.sh
+                script_path: https://raw.githubusercontent.com/cloudify-cosmo/cloudify-manager/master/resources/rest-service/cloudify/fs/mount-docker.sh
                 fabric_env:
                   user: { get_input: manager_server_user }
                   key_filename: { get_property: [management_keypair, private_key_path] }
@@ -319,11 +318,11 @@ node_templates:
     properties:
       cloudify_packages:
         agents:
-          ubuntu_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-ubuntu-agent_3.2.0-ga-b200_amd64.deb
-          centos_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-centos-final-agent_3.2.0-ga-b200_amd64.deb
-          windows_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-windows-agent_3.2.0-ga-b200_amd64.deb
+          ubuntu_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.1/ga-RELEASE/cloudify-ubuntu-agent_3.2.1-ga-b212_amd64.deb
+          centos_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.1/ga-RELEASE/cloudify-centos-final-agent_3.2.1-ga-b212_amd64.deb
+          windows_agent_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.1/ga-RELEASE/cloudify-windows-agent_3.2.1-ga-b212_amd64.deb
         docker:
-           docker_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.0/ga-RELEASE/cloudify-docker-commercial_3.2.0-ga-b200.tar
+           docker_url: http://gigaspaces-repository-eu.s3.amazonaws.com/org/cloudify3/3.2.1/ga-RELEASE/cloudify-docker-commercial_3.2.1-ga-b212.tar
 
       cloudify:
         resources_prefix: { get_input: resources_prefix }
